@@ -16,7 +16,7 @@ A cross-platform, production-ready AI assistant app built with **Flutter** and a
 
 | Chat with AI | Conversation History | Empty State |
 |---|---|---|
-| ![Chat Screen](screenshots/chat_screen.png) | ![History](screenshots/history_screen.png) | ![Empty State](screenshots/empty_state.png) |
+| ![Chat Screen](screenshots/chat_screen.png) | ![History](screenshots/history_screen.png) | ![Dashboard](screenshots/empty_state.png) |
 
 | Quick Options Menu | Settings & Personas | Login |
 |---|---|---|
