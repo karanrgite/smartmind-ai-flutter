@@ -23,11 +23,6 @@ class _ChatLoaderScreenState extends State<ChatLoaderScreen> {
   }
 
   Future<void> _init() async {
-    final prefs = await SharedPreferences.getInstance();
-    final username = prefs.getString('username');
-    if (username != null && username.isNotEmpty) {
-      _title = username;
-    }
     await _createConversation();
   }
 

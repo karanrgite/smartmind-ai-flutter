@@ -346,7 +346,7 @@ class _ChatViewState extends State<_ChatView> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 4, top: 4, right: 8),
+                        padding: const EdgeInsets.only(bottom: 4, top: 4, right: 4),
                         child: TextField(
                           controller: _messageController,
                           maxLines: 6,
@@ -372,6 +372,19 @@ class _ChatViewState extends State<_ChatView> {
                           onChanged: (_) => setState(() {}),
                         ),
                       ),
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
+                      icon: const Icon(Icons.attach_file_rounded,
+                          color: _hintColor, size: 22),
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Image & video uploads are coming soon!'),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -449,16 +462,11 @@ class _ChatViewState extends State<_ChatView> {
             onTap: () {
               Navigator.pop(ctx);
               bloc.add(DeleteConversationEvent(widget.conversationId));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.refresh_rounded, color: Colors.white),
-            title: const Text('Reload Messages',
-                style: TextStyle(color: Colors.white)),
-            onTap: () {
-              Navigator.pop(ctx);
-              bloc.add(LoadMessagesEvent(widget.conversationId));
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context, true); // true = "a conversation was deleted"
+              } else {
+                Navigator.pushReplacementNamed(context, '/history');
+              }
             },
           ),
           ListTile(

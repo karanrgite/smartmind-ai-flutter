@@ -71,6 +71,17 @@ class ChatRepository {
     } catch (_) {}
   }
 
+  Future<void> deleteAllConversations() async {
+    final conversations = await getConversations();
+    for (final conv in conversations) {
+      try {
+        await deleteConversation(conv.id);
+      } catch (_) {
+        // keep deleting the rest even if one fails
+      }
+    }
+  }
+
   Future<void> clearAllCachedMessages() async {
     try {
       final prefs = await SharedPreferences.getInstance();

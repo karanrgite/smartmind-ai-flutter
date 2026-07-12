@@ -44,11 +44,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _clearAllHistory() async {
     setState(() => _isClearing = true);
+    try {
+      await ChatRepository().deleteAllConversations();
+    } catch (_) {
+      // best-effort — still clear local cache below
+    }
     await ChatRepository().clearAllCachedMessages();
     if (!mounted) return;
     setState(() => _isClearing = false);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Cached conversation history cleared')),
+      const SnackBar(content: Text('All conversation history cleared')),
     );
   }
 
@@ -60,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: const Text('Clear all history?',
             style: TextStyle(color: Colors.white)),
         content: const Text(
-          'This clears locally cached messages on this device. Conversations stored on the server are not affected.',
+          'This permanently deletes all your conversations from the server and clears locally cached messages. This cannot be undone.',
           style: TextStyle(color: _hintColor),
         ),
         actions: [

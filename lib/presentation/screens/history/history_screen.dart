@@ -202,8 +202,8 @@ class _ConversationTile extends StatelessWidget {
           _formatTimestamp(conversation.updatedAt),
           style: TextStyle(color: _hintColor, fontSize: 12),
         ),
-        onTap: () {
-          Navigator.push(
+        onTap: () async {
+          final deleted = await Navigator.push<bool>(
             context,
             MaterialPageRoute(
               builder: (_) => ChatScreen(
@@ -212,6 +212,9 @@ class _ConversationTile extends StatelessWidget {
               ),
             ),
           );
+          if (deleted == true && context.mounted) {
+            context.read<HistoryBloc>().add(LoadConversationsEvent());
+          }
         },
       ),
     );
